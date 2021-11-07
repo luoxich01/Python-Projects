@@ -4,7 +4,7 @@ English txt: https://python123.io/resources/pye/hamlet.txt
 Chinese txt: https://python123.io/resources/pye/threekingdoms.txt
 '''
 
-# Count words in English text file: hamlet.txt
+# Count top 10 most frequently-used words in English text file: hamlet.txt
 def getText():
     txt = open('hamlet.txt', 'r').read()
     txt = txt.lower()
@@ -38,7 +38,7 @@ hamlet      462
 in          436
 '''
 
-# Count words in Chinese text file: threekingdoms.txt
+# Count the top 10 most frequently-mentioned characters in Chinese text file: threekingdoms.txt
 import jieba
 
 txt = open("threekingdoms.txt","r",encoding="utf-8").read()
@@ -72,6 +72,71 @@ Final Result
 不能          384
 如此          378
 张飞          358
+
+However, one thing to be notice is, if you can read Chinese, you will see that 将军, 荆州, 却说, 二人, 不可, 不能, and 如此 are not characters. 
+Besides, 玄德曰 and 孔明曰 mean 玄德 said and 孔明 said respectively. In that case, we gonna modify the code above.
+'''
+
+import jieba
+
+import jieba
+
+txt = open("threekingdoms.txt","r",encoding="utf-8").read()
+words = jieba.lcut(txt)
+excludes = {"将军","却说","荆州","二人","不可","不能","如此","商议","如何","主公","军士","左右",
+            "军马","引兵","次日","大喜","天下","东吴","于是","今日","不敢","魏兵","陛下","一人",
+            "都督","人马","不知","汉中","只见","众将","后主","蜀兵","上马","大叫","太守","此人",
+            "夫人","先主","后人","背后","城中","天子","一面","何不","大军","忽报","先生","百姓",
+            "何故","然后","先锋","不如","赶来","原来","令人","江东","下马","喊声","正是","徐州",
+            "忽然","因此","成都","不见","未知","大败","大事","之后","一军","引军","起兵","军中",
+            "接应","进兵","大惊","可以","以为","大怒","不得","心中","一声","下文","追赶"}
+counts = {} 
+for word in words:
+    if len(word) == 1:
+        continue
+    elif word == "诸葛亮" or word == "孔明曰":
+        rword = "孔明"
+    elif word == "关公" or word == "云长":
+        rword = "关羽"
+    elif word == "玄德" or word == "玄德曰":
+        rword = "刘备"
+    elif word == "孟德" or word == "丞相":
+        rword = "曹操"
+    else:
+        rword = word
+    counts[rword] = counts.get(rword, 0) + 1
+for word in excludes:
+    del counts[word]
+items = list(counts.items())
+items.sort(key=lambda x:x[1], reverse=True)
+for i in range(20):
+    rword, count = items[i]
+    print("{0:<10}{1:>5}".format(rword, count))
+
+'''
+Final Result
+曹操         1451
+孔明         1383
+刘备         1252
+关羽          784
+张飞          358
+吕布          300
+赵云          278
+孙权          264
+司马懿         221
+周瑜          217
+袁绍          191
+马超          185
+魏延          180
+黄忠          168
+姜维          151
+马岱          127
+庞德          122
+孟获          122
+刘表          120
+夏侯惇         116
+
+Above are the top 20 most frequently-mentioned characters
 '''
 
 
