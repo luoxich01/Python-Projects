@@ -1,0 +1,34 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+inp = input().split()
+N = int(inp[0])
+M = int(inp[1])
+dash_lst = []
+for r in range(N):
+    mid_row = int((N-1)/2)
+    if r < mid_row:
+        mid_patrn = int(2*r+1)
+        dash_cnt = int((M-mid_patrn*3)/2)
+        dash_lst.append(dash_cnt*'-'+mid_patrn*'.|.'+dash_cnt*'-')
+        print(dash_lst[r])
+    elif r == mid_row:
+        dash_cnt = int((M-7)/2)
+        print(dash_cnt*'-'+'WELCOME'+dash_cnt*'-')
+    elif r > mid_row:
+        print(dash_lst[N-1-r])
+        
+'''
+input is a single line containing the space separated values of N and M.
+ 
+sample input: 9 27
+ 
+sample output:
+------------.|.------------
+---------.|..|..|.---------
+------.|..|..|..|..|.------
+---.|..|..|..|..|..|..|.---
+----------WELCOME----------
+---.|..|..|..|..|..|..|.---
+------.|..|..|..|..|.------
+---------.|..|..|.---------
+------------.|.------------
+'''
