@@ -1,0 +1,50 @@
+'''
+This pgm achieves the automation by saperating the data and function:
+- Function
+Draw the Trace
+- Data
+The script to tell the function what to draw
+
+Besides, in the data.txt, I standarized the file by adding ',' to saperate
+the data. Thus the pgm just read the data which was splitted by ','.
+
+Last but not the least, two-dimension data was used in this case: I used
+list to organize the info from txt file, which makes the pgm easy to implement
+the data.
+
+('data.txt' was also provided in the list)
+'''
+
+import turtle as t
+# assign title
+t.title('Auto Draw Trace')
+# assign the window size
+t.setup(800, 600, 0, 0)
+# assign the original pen color
+t.pencolor('red')
+# assign the pen size
+t.pensize(5)
+
+# read in data
+datals = []
+f = open('data.txt')
+for line in f:
+    line = line.replace('\n',"")
+    # use eval() to strip the quote signs: '0' --> 0
+    # map is to apply the first parameter to each element in the second parameter
+    datals.append(list(map(eval, line.split(','))))
+
+# end the reading    
+f.close()   
+
+# start drawing
+for i in range(len(datals)):
+    # assign RGB to change the pen color
+    t.pencolor(datals[i][3], datals[i][4], datals[i][5])
+    # assign move distance
+    t.fd(datals[i][0])
+    # if datals[i][1] is 1 then turn right; else, turn left
+    if datals[i][1]:
+        t.right(datals[i][2])
+    else:
+        t.left(datals[i][2])
